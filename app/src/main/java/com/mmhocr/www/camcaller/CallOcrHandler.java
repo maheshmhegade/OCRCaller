@@ -12,9 +12,13 @@ import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.googlecode.leptonica.android.ReadFile;
@@ -28,26 +32,41 @@ public class CallOcrHandler extends Activity{
     private Camera mCamera;
     private Context mContext;
 
-
     public void performCrop(Context context) {
         mContext = context;
         try {
             Bitmap image = BitmapFactory.decodeFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath() +"/image.jpg");
             DrawView selectionView = (DrawView)((Activity)context).findViewById(R.id.imageView);
             Rect frame = selectionView.getSelection();
+            FrameLayout selectionLO = (FrameLayout)((Activity)context).findViewById(R.id.selection_lo);
+            if(selectionLO != null) selectionLO.removeAllViewsInLayout();
+            LinearLayout camLO = (LinearLayout)((Activity)context).findViewById(R.id.camera_lo);
+            if(camLO != null) camLO.removeAllViewsInLayout();
 
             ((Activity)context).setContentView(R.layout.result_layout);
-            ImageView customView = (ImageView)((Activity)context).findViewById(R.id.resultImageView);
 
 
             //Bitmap resizedbitmap = Bitmap.createBitmap(image, frame.width()-frame.left, frame.height()-frame.top, frame.right-frame.left, frame.bottom-frame.top);
             Bitmap resizedbitmap =  Bitmap.createBitmap(image,100 + frame.left*2, 350 + frame.top*2,(frame.right-frame.left)*2, 2*(frame.bottom-frame.top));
 
 
+            String[] phoneNumbers = RecognizeText(resizedbitmap);
+            final Spinner spinner = (Spinner)((Activity)context).findViewById(R.id.phone_number_list);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                    android.R.layout.simple_spinner_item, phoneNumbers);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
 
-            customView.setImageBitmap(image);
-            RecognizeText(resizedbitmap);
-            customView.setAlpha(0XFF);
+            ImageButton button = (ImageButton) ((Activity)context).findViewById(R.id.callNumber);
+
+            button.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    String phoneNumber = (String)spinner.getSelectedItem();
+                    callTheNumber(phoneNumber);
+                }
+            });
         }
         // respond to users whose devices do not support the crop action
         catch (ActivityNotFoundException anfe) {
@@ -55,17 +74,29 @@ public class CallOcrHandler extends Activity{
         }
     }
 
-    public void scanImage(Context context, String filePath){
+    public void scanImage(final Context context, String filePath){
+        if(filePath == null) return;
+        mContext = context;
         Bitmap image = BitmapFactory.decodeFile(filePath);
-        ImageView customView = (ImageView)((Activity)context).findViewById(R.id.scannedImage);
-        customView.setImageBitmap(image);
-        Log.d("mmh..........", "");
+        ImageView customView = (ImageView)((Activity)context).findViewById(R.id.selectImage);
+
         String[] phoneNumbers = RecognizeText(image);
-        Log.d("mmh.........", phoneNumbers.length + phoneNumbers[0]);
-        Spinner spinner = (Spinner)((Activity)context).findViewById(R.id.phone_numbers_spinner);
+        final Spinner spinner = (Spinner)((Activity)context).findViewById(R.id.phone_numbers_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_spinner_item, phoneNumbers);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        ImageButton button = (ImageButton) ((Activity)context).findViewById(R.id.callButton);
+
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                String phoneNumber = (String)spinner.getSelectedItem();
+                callTheNumber(phoneNumber);
+            }
+        });
     }
 
     public String[] RecognizeText(Bitmap bitmap) {
@@ -79,14 +110,14 @@ public class CallOcrHandler extends Activity{
         baseAPI.setImage(ReadFile.readBitmap(bitmap));
         String textResult = baseAPI.getUTF8Text();
         String[] phoneNumbers = textResult.split(" ");
-        String phoneNumber = phoneNumbers[0];
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:"+phoneNumber));// + phoneNumber));
-        ((Activity)mContext).startActivity(callIntent);
+//        phoneNumbers[0] = "9964810346";
 //        Log.d("Recognized as", textResult);
         return phoneNumbers;
     }
 
-
-
+    private void callTheNumber(String phoneNumber){
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" +phoneNumber));// + phoneNumber));
+        ((Activity)mContext).startActivity(callIntent);
+    }
 }

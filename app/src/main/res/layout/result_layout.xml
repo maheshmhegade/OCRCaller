@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/result_lo"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/phone_number_list"
+            android:layout_gravity="center_horizontal|top"
+            android:spinnerMode="dropdown" />
+
+        <ImageButton
+            android:layout_width="109dp"
+            android:layout_height="135dp"
+            android:background="@drawable/background_button"
+            android:id="@+id/callNumber"
+            android:layout_gravity="center"
+            android:src="@drawable/call_button" />
+    </FrameLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

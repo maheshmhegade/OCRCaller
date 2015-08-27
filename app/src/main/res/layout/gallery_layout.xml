@@ -4,40 +4,32 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:weightSum="1">
+        android:id="@+id/galleryLO">
 
         <ImageButton
-            android:layout_width="85dp"
-            android:background="@drawable/background_button"
-            android:layout_height="185dp"
+            android:layout_width="107dp"
+            android:layout_height="131dp"
             android:id="@+id/selectImage"
-            android:src="@drawable/gallery"
-            android:layout_weight="0.22" />
+            android:layout_gravity="left|top"
+            android:src="@drawable/gallery" />
 
-        <FrameLayout
-            android:layout_width="109dp"
-            android:layout_height="436dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.52"
-            android:id="@+id/scannedImageLayout">
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/phone_numbers_spinner"
+            android:layout_gravity="center"
+            android:spinnerMode="dropdown" />
 
-            <ImageView
-                android:layout_width="229dp"
-                android:layout_height="229dp"
-                android:id="@+id/scannedImage"
-                android:layout_gravity="center" />
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/phone_numbers_spinner"
-                android:layout_gravity="center_horizontal|top" />
-        </FrameLayout>
-
-    </LinearLayout>
+        <ImageButton
+            android:layout_width="119dp"
+            android:layout_height="147dp"
+            android:src="@drawable/call_button"
+            android:background="@drawable/background_button"
+            android:id="@+id/callButton"
+            android:layout_gravity="center_horizontal|bottom" />
+    </FrameLayout>
 </LinearLayout>

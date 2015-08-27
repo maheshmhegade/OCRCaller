@@ -60,6 +60,8 @@ public class CameraManager extends Fragment {
             if(selectionLO != null) selectionLO.removeAllViewsInLayout();
             LinearLayout camLO = (LinearLayout)((Activity)context).findViewById(R.id.camera_lo);
             if(camLO != null) camLO.removeAllViewsInLayout();
+            LinearLayout resultLO = (LinearLayout)((Activity)context).findViewById(R.id.result_lo);
+            if(resultLO != null) resultLO.removeAllViewsInLayout();
         }
         if(mPreview != null) mPreview.stopPreview();
 //        if(image != null) image.removeAllViews();
@@ -149,14 +151,13 @@ public class CameraManager extends Fragment {
         viewControl = controlInflater.inflate(R.layout.selection_layout, null);
         ((Activity) context).addContentView(viewControl, layoutParamsControl);
 
-        if(callButton == null) {
-            callButton = (ImageButton) ((Activity) context).findViewById(R.id.button_take_piture);
+        callButton = (ImageButton) ((Activity) context).findViewById(R.id.button_take_piture);
 
-            callButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    Camera.Parameters params = mCamera.getParameters();
+                Camera.Parameters params = mCamera.getParameters();
 //                if((getApplication()).getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH))
 //                    params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
@@ -164,16 +165,14 @@ public class CameraManager extends Fragment {
 //                    params.remove(Camera.Parameters.FLASH_MODE_TORCH);
 //                    params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 //                }
-                    if (mCamera != null) {
-                        mCamera.takePicture(null, null, mPicture);
+                if (mCamera != null) {
+                    mCamera.takePicture(null, null, mPicture);
 //                    mCamera.release();
-                    }
+                }
 //                mCamera.setParameters(params);
 //                mPreview.takePicture();
-                }
-            });
-        }
-
+            }
+        });
     }
 
     public synchronized Rect getFramingRect() {
