@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$USER_HOME$/mounts/oldhome/home/mmh/programing/OcrCaller/OcrCaller.iml" filepath="$USER_HOME$/mounts/oldhome/home/mmh/programing/OcrCaller/OcrCaller.iml" />
+      <module fileurl="file://$USER_HOME$/mounts/oldhome/home/mmh/programing/OcrCaller/app/app.iml" filepath="$USER_HOME$/mounts/oldhome/home/mmh/programing/OcrCaller/app/app.iml" />
+      <module fileurl="file://$USER_HOME$/mounts/oldhome/home/mmh/programing/OcrCaller/libraries/libraries.iml" filepath="$USER_HOME$/mounts/oldhome/home/mmh/programing/OcrCaller/libraries/libraries.iml" />
+      <module fileurl="file://$USER_HOME$/mounts/oldhome/home/mmh/programing/OcrCaller/libraries/tess-two/tess-two.iml" filepath="$USER_HOME$/mounts/oldhome/home/mmh/programing/OcrCaller/libraries/tess-two/tess-two.iml" />
+    </modules>
+  </component>
+</project>
